@@ -26,7 +26,7 @@ const SignupButton:React.FC<IBaseProps> = (props:IBaseProps) => {
 		setSignupIsLoading(true);
 		if(spaceName===undefined || password===undefined || spaceName === "" || password===""){
 			if(lang === "en-US"){
-				warningToast("EVM Address or Amount is EMPTY")
+				warningToast("address or amount is empty")
 			}
 
 			if(lang === "zh-CN"){
