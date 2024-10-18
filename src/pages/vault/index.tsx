@@ -1,29 +1,21 @@
 import React from "react";
-import {Center, Container, Text} from "@chakra-ui/layout";
-import {useSelector} from "react-redux";
+import { Center, Container, Text } from "@chakra-ui/layout";
 import { IBaseProps } from "../../interfaces/props";
-import {pageState, StateType } from "../../reducers/state";
-import {SignBoard} from "../../components/Board/signup";
-import {SaveBoard} from "../../components/Board/save";
-import {QueryBoard} from "../../components/Board/query";
+import { SignBoard } from "../../components/Board/signup";
 
-const Vault:React.FC<IBaseProps> = (props:IBaseProps)=>{
-	const label= useSelector((state:StateType)=>state.page);
+const Vault: React.FC<IBaseProps> = (props: IBaseProps) => {
+  return (
+    <Center>
+      <Container>
+        <Center>
+          <Text fontSize="2xl" >
+            welcome to use sBTC for your Bitcoin develop
+          </Text>
+        </Center>
+        {<SignBoard />}
+      </Container>
+    </Center>
+  );
+};
 
-	return(
-				<Center>
-					<Container>
-						<Center>
-							<Text fontSize="1xl" fontWeight="extrabold">
-							Buy sBTC With USDC/USDT Directly	
-							</Text>
-						</Center>
-						{label === pageState.SIGNUP && <SignBoard />}
-						{label === pageState.QUERY && <QueryBoard />}
-						{label === pageState.SAVE && <SaveBoard />}
-					</Container>
-				</Center>
-	);
-}
-
-export {Vault};
+export { Vault };

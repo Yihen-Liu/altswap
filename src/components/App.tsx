@@ -26,8 +26,8 @@ const App:React.FC<IBaseProps> = (props:IBaseProps)=>{
 					<Router>
 						<Header />
 						<Routes>
-							<Route path="/" element={ <Navigate to="/vault" />}> </Route>
-							<Route path="/vault" element={<Vault />}> </Route>
+							<Route path="/" element={ <Navigate to="/home" />}> </Route>
+							<Route path="/home" element={<Vault />}> </Route>
 							<Route path="/brainwallet" element={<Brainwallet />}> </Route>
 							<Route path="/identity" element={<Identity />}> </Route>
 							<Route path="/nostrid" element={<NostrId />}> </Route>

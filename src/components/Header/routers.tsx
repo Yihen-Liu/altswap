@@ -81,25 +81,6 @@ const PageRouter:React.FC<IBaseProps> = (props:IBaseProps)=> {
     return(
 			<Box flexGrow={1}>
 				<Center>
-					<ButtonGroup spacing="2">
-						<NavLink to="/vault">
-							<Button bg="#2b2d32" colorScheme="blackAlpha" onClick={()=>clickButton("vault")}>
-								<Text fontSize="xl" color={vaultColor}>
-										<Trans>Swap </Trans>
-								</Text>
-							</Button>
-						</NavLink>
-
-						<NavLink to="/brainwallet">
-							<Button bg="#2b2d32" colorScheme="blackAlpha" onClick={()=>clickButton("wallet")}>
-								<Text fontSize="xl" color={walletColor}>
-										<Trans>Transaction</Trans>
-								</Text>
-							</Button>
-						</NavLink>
-
-
-					</ButtonGroup>
 				</Center>
 			</Box>
     );

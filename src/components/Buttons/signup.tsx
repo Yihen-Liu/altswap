@@ -108,6 +108,7 @@ const SignupButton:React.FC<IBaseProps> = (props:IBaseProps) => {
 
 	const activeButton = useMemo(()=>{
 		return(
+   <>
 			<Button
 				colorScheme="blackAlpha"
 				fontSize="xl"
@@ -115,8 +116,19 @@ const SignupButton:React.FC<IBaseProps> = (props:IBaseProps) => {
 				isLoading={signupIsLoading}
 				w="100%"
 			>
-				<Trans>Let's Buy</Trans>
+				<Trans>Buy with USDC</Trans>
 			</Button>
+			<Button
+				colorScheme="blackAlpha"
+				fontSize="xl"
+				onClick={signup}
+				isLoading={signupIsLoading}
+				w="100%"
+			>
+				<Trans>Buy with USDT</Trans>
+			</Button>
+  
+   </>
 		);
 
 	},[signup, signupIsLoading]);

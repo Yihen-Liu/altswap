@@ -1,12 +1,10 @@
 import React, {useMemo, useState} from "react";
-import {Box, Stack, VStack} from "@chakra-ui/layout";
+import {Box, } from "@chakra-ui/layout";
 import {TextInput} from "./textinput";
 import {IBaseProps} from "../../interfaces/props";
 import {useDispatch, useSelector} from "react-redux";
 import {StateType} from "../../reducers/state";
 import {signupPasswordAction, signupSpacenameAction} from "../../reducers/action";
-import {useRecoilState} from "recoil";
-import {languageState} from "../../hooks/Atoms";
 
 const SignupArea:React.FC<IBaseProps> = (props:IBaseProps)=>{
 	const dispatch = useDispatch();
@@ -17,21 +15,8 @@ const SignupArea:React.FC<IBaseProps> = (props:IBaseProps)=>{
 	const handleSpaceChange = (event: React.FormEvent<HTMLInputElement>)=>setSpaceValue(event.currentTarget.value)
 	const handlePwdChange = (event: React.FormEvent<HTMLInputElement>)=>setPwdValue(event.currentTarget.value)
 
-	const [lang, ] = useRecoilState(languageState)
-	const [spaceNameHolder, setSpaceNameHolder]	= useState<string>("Enter receive address of EVM ...")
-	const [passwordHolder, setPasswordHolder] = useState<string>("USDC/USDT Amount ...")
-	useMemo(()=>{
-		if(lang==='zh-CN'){
-			setSpaceNameHolder("输入保险库空间名称 ...")
-			setPasswordHolder("密钥 ...")
-		}
-
-		if(lang==='en-US'){
-			setSpaceNameHolder("Enter receive address of EVM ...")
-			setPasswordHolder("USDC/USDT Amount ...")
-		}
-	},[lang])
-
+	const [spaceNameHolder, ]	= useState<string>("sBTC Received Address ...")
+	const [passwordHolder, ] = useState<string>("sBTC Amount To Buy ...")
 	useMemo(()=>{
 		dispatch(signupSpacenameAction(isConnection, spaceValue));
 	},[dispatch, isConnection, spaceValue])
@@ -41,7 +26,7 @@ const SignupArea:React.FC<IBaseProps> = (props:IBaseProps)=>{
 	},[dispatch,isConnection, pwdValue])
 
     return(
-        <VStack spacing={0}  color="black">
+            <>
             <Box
                 w="100%"
                 bg="whiteAlpha"
@@ -49,7 +34,6 @@ const SignupArea:React.FC<IBaseProps> = (props:IBaseProps)=>{
                 borderRadius={8}
                 boxShadow="lg"
             >
-                <Stack spacing={2}>
                     <TextInput
 	                    placeholder={spaceNameHolder}
 	                    type={'text'}
@@ -57,7 +41,6 @@ const SignupArea:React.FC<IBaseProps> = (props:IBaseProps)=>{
 	                    value={spaceValue}
 	                    onChange={handleSpaceChange}
                     />
-                </Stack>
             </Box>
             <Box
                 w="100%"
@@ -66,18 +49,15 @@ const SignupArea:React.FC<IBaseProps> = (props:IBaseProps)=>{
                 borderRadius={8}
                 boxShadow="lg"
             >
-                <Stack spacing={2}>
-                    <TextInput
-	                    type={'password'}
-	                    placeholder={passwordHolder}
-	                    disabled={!isConnection}
-	                    value={pwdValue}
-	                    onChange={handlePwdChange}
-                    />
-                </Stack>
+                <TextInput
+                    type={'password'}
+                    placeholder={passwordHolder}
+                    disabled={!isConnection}
+                    value={pwdValue}
+                    onChange={handlePwdChange}
+                />
             </Box>
-        </VStack>
-
+        </>
     );
 }
 
