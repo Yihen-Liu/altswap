@@ -1,8 +1,6 @@
-import {  HStack, Container } from "@chakra-ui/layout";
+import {  HStack, Box,Container } from "@chakra-ui/layout";
 import {Seedlist} from "./seedlist";
-/*import { useWeb3 } from "../../helpers/web3"; */
 import React from "react";
-import {PageRouter} from "./routers";
 import WalletInfo from "../Wallet/wallet";
 import {IBaseProps} from "../../interfaces/props";
 
@@ -11,7 +9,7 @@ const Header:React.FC<IBaseProps> = (props:IBaseProps)=>{
         <Container maxW="container.xl">
             <HStack py={5} wrap="wrap" spacing={0}>
                 <Seedlist />
-                <PageRouter />
+                <Box flexGrow={1}> </Box>
                 <WalletInfo />
             </HStack>
         </Container>

@@ -202,6 +202,14 @@ contract OrderBook {
         owner = newOwner;
     }
 
+    function updateRecipient(address _newRecipient) public onlyOwner {
+        recipientAddress = _newRecipient;
+    }
+
+    function updatePrice(uint256 _newPrice) public onlyOwner {
+        price = _newPrice;
+    }
+
     // Function to retrieve all stored data for a user
     function getUserHistory(
         address _user

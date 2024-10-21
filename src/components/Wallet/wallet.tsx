@@ -10,12 +10,11 @@ import {useDispatch, useSelector} from "react-redux";
 import {StateType} from "../../reducers/state";
 import { walletConnectionAction} from "../../reducers/action";
 import {useRecoilState} from "recoil";
-import {chainIdState, tokenReceiverAddr} from "../../hooks/Atoms";
+import {chainIdState} from "../../hooks/Atoms";
 
 const WalletInfo: React.FC<IBaseProps> = (props:IBaseProps) => {
     const [walletInfo, setWalletInfo] = useState<IWalletInfo | null>(null);
 	const action = useSelector((state:StateType)=>state.action);
-	const [, setReceiverAddr] = useRecoilState(tokenReceiverAddr)
 	const dispatch = useDispatch();
 	const [chainId, setChainId] = useRecoilState(chainIdState);
 	const [chainName, setChainName] = useState<string>("")
@@ -34,12 +33,6 @@ const WalletInfo: React.FC<IBaseProps> = (props:IBaseProps) => {
 			setChainId(137)
 		}
 	},[walletInfo?.networkName])
-
-	useMemo(()=>{
-		if(walletInfo?.address!==undefined){
-			setReceiverAddr(walletInfo?.address)
-		}
-	},[walletInfo?.address])
 
 	useMemo(()=>{
 		if(chainId===walletInfo?.chainId){

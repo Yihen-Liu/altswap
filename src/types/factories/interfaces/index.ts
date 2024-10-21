@@ -2,5 +2,4 @@
 /* tslint:disable */
 /* eslint-disable */
 export * as treasury from "./treasury";
-export * as validator from "./validator";
 export * as vaults from "./vaults";

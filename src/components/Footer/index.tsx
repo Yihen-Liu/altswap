@@ -1,25 +1,12 @@
 import { Text, HStack, Container } from "@chakra-ui/layout";
 import styled from "@emotion/styled";
 import { Link } from "@chakra-ui/react";
-import React, { useMemo, useState } from "react";
+import React from "react";
 import { IBaseProps } from "../../interfaces/props";
 import { Trans } from "@lingui/macro";
 import { NavLink } from "react-router-dom";
-import { useRecoilState } from "recoil";
-import { languageState } from "../../hooks/Atoms";
 
 const Footer: React.FC<IBaseProps> = (props: IBaseProps) => {
-  const [lang] = useRecoilState(languageState);
-  const [docLink, setDocLink] = useState("");
-  useMemo(() => {
-    if (lang === "en-US") {
-      setDocLink("https://docs-en.seedlist.org");
-    }
-
-    if (lang === "zh-CN") {
-      setDocLink("https://docs.seedlist.org");
-    }
-  }, [lang]);
   return (
     <FooterContainer maxW="container.xl" centerContent>
       <HStack py={5} wrap="wrap" spacing={6}>
