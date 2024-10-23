@@ -23,7 +23,7 @@ contract OrderBook {
 
     // Struct to store the user's data
     struct UserData {
-        int data;
+        int amount;
         address receiver; //receiver is the signet address that will receive sBTC;
         uint256 timestamp;
     }
@@ -37,7 +37,7 @@ contract OrderBook {
     // Define the event that will be emitted
     event DataStored(
         address indexed user,
-        int data,
+        int amount,
         address userAddress,
         string tokenType,
         uint256 timestamp
@@ -65,9 +65,8 @@ contract OrderBook {
 
     // Function to store user data with token (USDT/USDC) transfer
     function storeDataDisableRecipent(
-        int _data,
         address sBTCReceiver,
-        uint256 amount, // 新增的参数 amount
+        int _amount, // 新增的参数 amount
         string memory tokenType
     ) external {
         IERC20 token;
@@ -79,7 +78,7 @@ contract OrderBook {
             revert("Unsupported token type");
         }
 
-        uint256 totalAmount = amount * price; // 计算 amount * price
+        uint256 totalAmount = uint256(_amount) * price; // 计算 amount * price
 
         // Ensure the user has sent the required token amount
         require(
@@ -98,7 +97,7 @@ contract OrderBook {
 
         // Store the data with timestamp
         UserData memory newData = UserData({
-            data: _data,
+            amount: _amount,
             receiver: sBTCReceiver,
             timestamp: block.timestamp
         });
@@ -107,7 +106,7 @@ contract OrderBook {
         // Emit the DataStored event with the user address, data, and token type
         emit DataStored(
             msg.sender,
-            _data,
+            _amount,
             sBTCReceiver,
             tokenType,
             block.timestamp
@@ -116,9 +115,8 @@ contract OrderBook {
 
     // Function to store user data with token (USDT/USDC) transfer
     function storeData(
-        int _data,
         address sBTCReceiver,
-        uint256 amount, // 新增的参数 amount
+        int _amount, // 新增的参数 amount
         string memory tokenType
     ) external {
         IERC20 token;
@@ -130,7 +128,7 @@ contract OrderBook {
             revert("Unsupported token type");
         }
 
-        uint256 totalAmount = amount * price; // 计算 amount * price
+        uint256 totalAmount = uint256(_amount) * price; // 计算 amount * price
 
         // Ensure the user has sent the required token amount
         require(
@@ -149,7 +147,7 @@ contract OrderBook {
 
         // Store the data with timestamp
         UserData memory newData = UserData({
-            data: _data,
+            amount: _amount,
             receiver: sBTCReceiver,
             timestamp: block.timestamp
         });
@@ -158,7 +156,7 @@ contract OrderBook {
         // Emit the DataStored event with the user address, data, and token type
         emit DataStored(
             msg.sender,
-            _data,
+            _amount,
             sBTCReceiver,
             tokenType,
             block.timestamp
@@ -223,6 +221,6 @@ contract OrderBook {
         uint256 index
     ) external view returns (int, address, uint256) {
         UserData memory data = userHistory[_user][index];
-        return (data.data, data.receiver, data.timestamp);
+        return (data.amount, data.receiver, data.timestamp);
     }
 }

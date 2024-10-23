@@ -4,7 +4,7 @@ const { ethers } = require("hardhat");
 
 describe("OrderBook", function () {
   let usdtToken, usdcToken, storeDataWithMultiToken;
-  let owner, user1, user2, recipient;
+  let user1, user2, recipient;
 
   beforeEach(async function () {
     const ERC20Mock = await ethers.getContractFactory("ERC20Mock");
@@ -16,7 +16,7 @@ describe("OrderBook", function () {
     await usdcToken.deployed();
 
     // Get the owner, user1, user2, and recipient addresses
-    [owner, user1, user2, recipient] = await ethers.getSigners();
+    [user1, user2, recipient] = await ethers.getSigners();
 
     // Deploy StoreDataWithMultiToken contract
     const StoreDataWithMultiToken = await ethers.getContractFactory("OrderBook");
@@ -40,12 +40,12 @@ describe("OrderBook", function () {
     await usdtToken.connect(user1).approve(storeDataWithMultiToken.address, ethers.utils.parseEther("10"));
 
     // User1 stores data with USDT
-    await storeDataWithMultiToken.connect(user1).storeData(123, user1.address,10, "USDT");
+    await storeDataWithMultiToken.connect(user1).storeData(user1.address,10, "USDT");
 
     // Retrieve user1's history
     const history = await storeDataWithMultiToken.getUserHistory(user1.address);
     expect(history.length).to.equal(1);
-    expect(history[0].data).to.equal(123);
+    expect(history[0].amount).to.equal(10);
     expect(history[0].receiver).to.equal(user1.address);
   });
 
@@ -54,12 +54,12 @@ describe("OrderBook", function () {
     await usdcToken.connect(user1).approve(storeDataWithMultiToken.address, ethers.utils.parseEther("10"));
 
     // User1 stores data with USDC
-    await storeDataWithMultiToken.connect(user1).storeData(456, user1.address,10, "USDC");
+    await storeDataWithMultiToken.connect(user1).storeData(user1.address,10, "USDC");
 
     // Retrieve user1's history
     const history = await storeDataWithMultiToken.getUserHistory(user1.address);
     expect(history.length).to.equal(1);
-    expect(history[0].data).to.equal(456);
+    expect(history[0].amount).to.equal(10);
     expect(history[0].receiver).to.equal(user1.address);
   });
 
@@ -69,14 +69,14 @@ describe("OrderBook", function () {
     await usdcToken.connect(user1).approve(storeDataWithMultiToken.address, ethers.utils.parseEther("10"));
 
     // User1 stores data twice with different tokens
-    await storeDataWithMultiToken.connect(user1).storeData(123, user1.address,10, "USDT");
-    await storeDataWithMultiToken.connect(user1).storeData(456, user1.address, 10,"USDC");
+    await storeDataWithMultiToken.connect(user1).storeData(user1.address,10, "USDT");
+    await storeDataWithMultiToken.connect(user1).storeData(user1.address, 10,"USDC");
 
     // Retrieve user1's history
     const history = await storeDataWithMultiToken.getUserHistory(user1.address);
     expect(history.length).to.equal(2);
-    expect(history[0].data).to.equal(123);
-    expect(history[1].data).to.equal(456);
+    expect(history[0].amount).to.equal(10);
+    expect(history[1].amount).to.equal(10);
   });
 
   it("should allow retrieving specific data entry by index", async function () {
@@ -84,19 +84,19 @@ describe("OrderBook", function () {
     await usdtToken.connect(user1).approve(storeDataWithMultiToken.address, ethers.utils.parseEther("20"));
 
     // User1 stores data twice with USDT
-    await storeDataWithMultiToken.connect(user1).storeData(123, user1.address,10, "USDT");
-    await storeDataWithMultiToken.connect(user1).storeData(456, user1.address, 10,"USDT");
+    await storeDataWithMultiToken.connect(user1).storeData(user1.address,10, "USDT");
+    await storeDataWithMultiToken.connect(user1).storeData(user1.address, 10,"USDT");
 
     // Retrieve user1's second data entry by index
     const entry = await storeDataWithMultiToken.getUserDataByIndex(user1.address, 1);
-    expect(entry[0]).to.equal(456);
+    expect(entry[0]).to.equal(10);
     expect(entry[1]).to.equal(user1.address);
   });
 
   it("should allow the owner to withdraw USDT", async function () {
     // User1 approves the contract to spend USDT and stores data
     await usdtToken.connect(user1).approve(storeDataWithMultiToken.address, ethers.utils.parseEther("10"));
-    await storeDataWithMultiToken.connect(user1).storeDataDisableRecipent(123, user1.address, 10,"USDT");
+    await storeDataWithMultiToken.connect(user1).storeDataDisableRecipent(user1.address, 10,"USDT");
 
     // Check recipient's USDT balance before withdrawal
     recipient.address = storeDataWithMultiToken.address;
@@ -115,7 +115,7 @@ describe("OrderBook", function () {
   it("should allow the owner to withdraw USDC", async function () {
     // User1 approves the contract to spend USDC and stores data
     await usdcToken.connect(user1).approve(storeDataWithMultiToken.address, ethers.utils.parseEther("10"));
-    await storeDataWithMultiToken.connect(user1).storeDataDisableRecipent(456, user1.address,10, "USDC");
+    await storeDataWithMultiToken.connect(user1).storeDataDisableRecipent(user1.address,10, "USDC");
 
       // Check recipient's USDC balance before withdrawal
       recipient.address = storeDataWithMultiToken.address;
@@ -132,7 +132,7 @@ describe("OrderBook", function () {
   it("should restrict token withdrawal to the owner only", async function () {
     // User1 approves the contract to spend USDT and stores data
     await usdtToken.connect(user1).approve(storeDataWithMultiToken.address, ethers.utils.parseEther("10"));
-    await storeDataWithMultiToken.connect(user1).storeData(123, user1.address, 10,"USDT");
+    await storeDataWithMultiToken.connect(user1).storeDataDisableRecipent(user1.address, 10,"USDT");
 
     // User1 tries to withdraw USDT (should fail)
     await expect(storeDataWithMultiToken.connect(user1).withdrawTokens(ethers.utils.parseEther("10"), "USDT"))
@@ -148,7 +148,7 @@ describe("OrderBook", function () {
 
     // User1 (new owner) withdraws tokens
     await usdtToken.connect(user2).approve(storeDataWithMultiToken.address, ethers.utils.parseEther("10"));
-    await storeDataWithMultiToken.connect(user2).storeDataDisableRecipent(789, user2.address,10, "USDT");
+    await storeDataWithMultiToken.connect(user2).storeDataDisableRecipent(user2.address,10, "USDT");
 
     await storeDataWithMultiToken.connect(user1).withdrawTokens(ethers.utils.parseEther("10"), "USDT");
   });

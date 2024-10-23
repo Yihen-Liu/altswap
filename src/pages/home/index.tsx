@@ -12,7 +12,7 @@ const Home: React.FC<IBaseProps> = (props: IBaseProps) => {
             welcome to use sBTC for your Bitcoin develop
           </Text>
         </Center>
-        {<BuyBoard />}
+        <BuyBoard />
       </Container>
     </Center>
   );
