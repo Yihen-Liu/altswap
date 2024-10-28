@@ -38,7 +38,7 @@ contract OrderBook {
     event DataStored(
         address indexed user,
         int amount,
-        address userAddress,
+        address receiver,
         string tokenType,
         uint256 timestamp
     );

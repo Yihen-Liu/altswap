@@ -57,14 +57,6 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC20__factory>;
     getContractFactory(
-      name: "OrderBook",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.OrderBook__factory>;
-    getContractFactory(
-      name: "IERC20",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.IERC20__factory>;
-    getContractFactory(
       name: "MultiSigWallet",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.MultiSigWallet__factory>;
@@ -133,16 +125,6 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.VaultHubPermission>;
-    getContractAt(
-      name: "IERC20",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.IERC20>;
-    getContractAt(
-      name: "OrderBook",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.OrderBook>;
     getContractAt(
       name: "IERC20",
       address: string,

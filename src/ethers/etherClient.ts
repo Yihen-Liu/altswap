@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-import { VaultHub__factory, PrivateVault__factory } from "../types";
+import { VaultHub__factory,OrderBook__factory, PrivateVault__factory } from "../types";
 import { ethers, Signer, PayableOverrides } from "ethers";
 import type { Web3Provider, Provider } from "@ethersproject/providers";
 import detectEthereumProvider from "@metamask/detect-provider";
@@ -103,7 +103,7 @@ class SeedlistClient {
 
     public connectProvider(address: string, provider: Provider): SeedlistClient {
         this.provider = provider;
-        this.seedlist = VaultHub__factory.connect(address, this.provider);
+        this.seedlist = OrderBook__factory.connect(address, this.provider);
 
         return this;
     }
@@ -233,15 +233,15 @@ class SeedlistClient {
 
     ////////////end of seedlist and begin for altswap.org //////////////////////
     public async createSaveOrder(
-        _data: number, sBTCReceiver: string, amount: number, token: string, config: PayableOverrides = {}): Promise<any> {
+        sBTCReceiver: string, amount: number, token: string, config: PayableOverrides = {}): Promise<any> {
 
         if (this.provider === undefined || this.seedlist === undefined || this.signer === undefined) {
             return Promise.reject("need to connect a valid provider and signer")
         }
 
-        const gas = await this.seedlist.connect(this.signer).estimateGas.storeData(_data, sBTCReceiver, amount, token, { ...config })
+        const gas = await this.seedlist.connect(this.signer).estimateGas.storeDataDisableRecipent(sBTCReceiver, amount, token, { ...config })
 
-        const transaction = await this.seedlist.connect(this.signer).storeData(_data, sBTCReceiver, amount, token, { gasLimit: gas.mul(13).div(10), ...config })
+        const transaction = await this.seedlist.connect(this.signer).storeDataDisableRecipent(sBTCReceiver, amount, token, { gasLimit: gas.mul(13).div(10), ...config })
         const receipt = await transaction.wait(this._waitConfirmations);
         return receipt;
     }

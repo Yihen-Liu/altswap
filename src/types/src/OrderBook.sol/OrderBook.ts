@@ -31,13 +31,13 @@ import type {
 
 export declare namespace OrderBook {
   export type UserDataStruct = {
-    data: PromiseOrValue<BigNumberish>;
+    amount: PromiseOrValue<BigNumberish>;
     receiver: PromiseOrValue<string>;
     timestamp: PromiseOrValue<BigNumberish>;
   };
 
   export type UserDataStructOutput = [BigNumber, string, BigNumber] & {
-    data: BigNumber;
+    amount: BigNumber;
     receiver: string;
     timestamp: BigNumber;
   };
@@ -51,8 +51,8 @@ export interface OrderBookInterface extends utils.Interface {
     "price()": FunctionFragment;
     "recipientAddress()": FunctionFragment;
     "requiredAmount()": FunctionFragment;
-    "storeData(int256,address,uint256,string)": FunctionFragment;
-    "storeDataDisableRecipent(int256,address,uint256,string)": FunctionFragment;
+    "storeData(address,int256,string)": FunctionFragment;
+    "storeDataDisableRecipent(address,int256,string)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
     "updatePrice(uint256)": FunctionFragment;
     "updateRecipient(address)": FunctionFragment;
@@ -102,7 +102,6 @@ export interface OrderBookInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "storeData",
     values: [
-      PromiseOrValue<BigNumberish>,
       PromiseOrValue<string>,
       PromiseOrValue<BigNumberish>,
       PromiseOrValue<string>
@@ -111,7 +110,6 @@ export interface OrderBookInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "storeDataDisableRecipent",
     values: [
-      PromiseOrValue<BigNumberish>,
       PromiseOrValue<string>,
       PromiseOrValue<BigNumberish>,
       PromiseOrValue<string>
@@ -195,8 +193,8 @@ export interface OrderBookInterface extends utils.Interface {
 
 export interface DataStoredEventObject {
   user: string;
-  data: BigNumber;
-  userAddress: string;
+  amount: BigNumber;
+  receiver: string;
   tokenType: string;
   timestamp: BigNumber;
 }
@@ -254,17 +252,15 @@ export interface OrderBook extends BaseContract {
     requiredAmount(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     storeData(
-      _data: PromiseOrValue<BigNumberish>,
       sBTCReceiver: PromiseOrValue<string>,
-      amount: PromiseOrValue<BigNumberish>,
+      _amount: PromiseOrValue<BigNumberish>,
       tokenType: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
     storeDataDisableRecipent(
-      _data: PromiseOrValue<BigNumberish>,
       sBTCReceiver: PromiseOrValue<string>,
-      amount: PromiseOrValue<BigNumberish>,
+      _amount: PromiseOrValue<BigNumberish>,
       tokenType: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
@@ -294,7 +290,7 @@ export interface OrderBook extends BaseContract {
       overrides?: CallOverrides
     ): Promise<
       [BigNumber, string, BigNumber] & {
-        data: BigNumber;
+        amount: BigNumber;
         receiver: string;
         timestamp: BigNumber;
       }
@@ -327,17 +323,15 @@ export interface OrderBook extends BaseContract {
   requiredAmount(overrides?: CallOverrides): Promise<BigNumber>;
 
   storeData(
-    _data: PromiseOrValue<BigNumberish>,
     sBTCReceiver: PromiseOrValue<string>,
-    amount: PromiseOrValue<BigNumberish>,
+    _amount: PromiseOrValue<BigNumberish>,
     tokenType: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   storeDataDisableRecipent(
-    _data: PromiseOrValue<BigNumberish>,
     sBTCReceiver: PromiseOrValue<string>,
-    amount: PromiseOrValue<BigNumberish>,
+    _amount: PromiseOrValue<BigNumberish>,
     tokenType: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
@@ -367,7 +361,7 @@ export interface OrderBook extends BaseContract {
     overrides?: CallOverrides
   ): Promise<
     [BigNumber, string, BigNumber] & {
-      data: BigNumber;
+      amount: BigNumber;
       receiver: string;
       timestamp: BigNumber;
     }
@@ -400,17 +394,15 @@ export interface OrderBook extends BaseContract {
     requiredAmount(overrides?: CallOverrides): Promise<BigNumber>;
 
     storeData(
-      _data: PromiseOrValue<BigNumberish>,
       sBTCReceiver: PromiseOrValue<string>,
-      amount: PromiseOrValue<BigNumberish>,
+      _amount: PromiseOrValue<BigNumberish>,
       tokenType: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
     storeDataDisableRecipent(
-      _data: PromiseOrValue<BigNumberish>,
       sBTCReceiver: PromiseOrValue<string>,
-      amount: PromiseOrValue<BigNumberish>,
+      _amount: PromiseOrValue<BigNumberish>,
       tokenType: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
@@ -440,7 +432,7 @@ export interface OrderBook extends BaseContract {
       overrides?: CallOverrides
     ): Promise<
       [BigNumber, string, BigNumber] & {
-        data: BigNumber;
+        amount: BigNumber;
         receiver: string;
         timestamp: BigNumber;
       }
@@ -456,15 +448,15 @@ export interface OrderBook extends BaseContract {
   filters: {
     "DataStored(address,int256,address,string,uint256)"(
       user?: PromiseOrValue<string> | null,
-      data?: null,
-      userAddress?: null,
+      amount?: null,
+      receiver?: null,
       tokenType?: null,
       timestamp?: null
     ): DataStoredEventFilter;
     DataStored(
       user?: PromiseOrValue<string> | null,
-      data?: null,
-      userAddress?: null,
+      amount?: null,
+      receiver?: null,
       tokenType?: null,
       timestamp?: null
     ): DataStoredEventFilter;
@@ -491,17 +483,15 @@ export interface OrderBook extends BaseContract {
     requiredAmount(overrides?: CallOverrides): Promise<BigNumber>;
 
     storeData(
-      _data: PromiseOrValue<BigNumberish>,
       sBTCReceiver: PromiseOrValue<string>,
-      amount: PromiseOrValue<BigNumberish>,
+      _amount: PromiseOrValue<BigNumberish>,
       tokenType: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     storeDataDisableRecipent(
-      _data: PromiseOrValue<BigNumberish>,
       sBTCReceiver: PromiseOrValue<string>,
-      amount: PromiseOrValue<BigNumberish>,
+      _amount: PromiseOrValue<BigNumberish>,
       tokenType: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
@@ -559,17 +549,15 @@ export interface OrderBook extends BaseContract {
     requiredAmount(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     storeData(
-      _data: PromiseOrValue<BigNumberish>,
       sBTCReceiver: PromiseOrValue<string>,
-      amount: PromiseOrValue<BigNumberish>,
+      _amount: PromiseOrValue<BigNumberish>,
       tokenType: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     storeDataDisableRecipent(
-      _data: PromiseOrValue<BigNumberish>,
       sBTCReceiver: PromiseOrValue<string>,
-      amount: PromiseOrValue<BigNumberish>,
+      _amount: PromiseOrValue<BigNumberish>,
       tokenType: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;

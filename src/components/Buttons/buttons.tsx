@@ -5,7 +5,6 @@ import { IBaseProps } from "../../interfaces/props";
 import { useSelector } from "react-redux";
 import { StateType } from "../../reducers/state";
 import { WarningIcon } from "@chakra-ui/icons";
-import { CryptoMachine2022 } from "../../lib/crypto";
 import { useSuccessToast, useWarningToast } from "../../hooks/useToast";
 import { etherClient } from "../../ethers/etherClient";
 import { useRecoilState } from "recoil";
@@ -22,8 +21,8 @@ const Buttons: React.FC<IBaseProps> = (props: IBaseProps) => {
 
   const successToast = useSuccessToast();
   const warningToast = useWarningToast();
-  const spaceName = useSelector((state: StateType) => state.spaceNameValue);
-  const password = useSelector((state: StateType) => state.passwordValue);
+  const receiver = useSelector((state: StateType) => state.spaceNameValue);
+  const amount = useSelector((state: StateType) => state.passwordValue);
   const [chainId] = useRecoilState(chainIdState);
   const [usdtIsLoading, setUSDTIsLoading] = useRecoilState(
     usdtBtnIsLoadingState
@@ -35,19 +34,19 @@ const Buttons: React.FC<IBaseProps> = (props: IBaseProps) => {
   const BuyWithUSDT = useCallback(async () => {
     setUSDTIsLoading(true);
     if (
-      spaceName === undefined ||
-      password === undefined ||
-      spaceName === "" ||
-      password === ""
+      receiver === undefined ||
+      amount === undefined ||
+      receiver === "" ||
+      amount ===""
     ) {
-        warningToast("address or amount is empty");
+      warningToast("address or amount is empty");
 
       setUSDTIsLoading(false);
       return;
     }
 
-    if (spaceName.length < 8 || password.length < 8) {
-        warningToast("content length must more than 8 chars");
+    if (receiver.length < 32 ) {
+      warningToast("content length must more than 8 chars");
 
       setUSDTIsLoading(false);
       return;
@@ -56,95 +55,67 @@ const Buttons: React.FC<IBaseProps> = (props: IBaseProps) => {
     etherClient.connectSeedlistContract();
     etherClient.connectSigner();
     if (!etherClient.client) {
-        warningToast("Wallet Maybe ERROR");
+      warningToast("Wallet Maybe ERROR");
 
       setUSDTIsLoading(false);
       return;
     }
 
-    //let _params = await encryptor.calculateVaultHasRegisterParams();
-    let _res = await etherClient.client?.createSaveOrder(0, "sBTC receiver", 1, "USDT");
+    let _res = await etherClient.client?.createSaveOrder(
+      receiver,
+      Number(amount),
+      "USDT"
+    );
     if (_res === true) {
-        successToast("Init Vault Spacename Success");
+      successToast("Init Vault Spacename Success");
     } else {
-        warningToast("Init Vault Spacename Fail");
+      warningToast("Init Vault Spacename Fail");
     }
     setUSDTIsLoading(false);
-  }, [spaceName, password, chainId]);
+  }, [receiver, amount, chainId]);
 
   const BuyWithUSDC = useCallback(async () => {
     setUSDCIsLoading(true);
     if (
-      spaceName === undefined ||
-      password === undefined ||
-      spaceName === "" ||
-      password === ""
+      receiver === undefined ||
+      amount === undefined ||
+      receiver === "" ||
+      amount ==="" 
     ) {
-        warningToast("address or amount is empty");
+      warningToast("address or amount is empty");
 
       setUSDCIsLoading(false);
       return;
     }
 
-    if (spaceName.length < 8 || password.length < 8) {
-        warningToast("content length must more than 8 chars");
+    if (receiver.length < 8) {
+      warningToast("content length must more than 8 chars");
 
       setUSDCIsLoading(false);
       return;
     }
 
-    let encryptor = new CryptoMachine2022(spaceName, password, chainId);
     etherClient.connectSeedlistContract();
     etherClient.connectSigner();
     if (!etherClient.client) {
-        warningToast("Wallet Maybe ERROR");
+      warningToast("Wallet Maybe ERROR");
 
       setUSDCIsLoading(false);
       return;
     }
-    await encryptor.generateWallet(spaceName, password);
-    let params = await encryptor.calculateVaultHasRegisterParams();
-    let res = await etherClient.client?.vaultHasRegister(
-      params.address,
-      params.deadline,
-      params.signature.r,
-      params.signature.s,
-      params.signature.v
-    );
-    if (res === true) {
-      warningToast("Same information has been registed.");
-      setUSDCIsLoading(false);
-      return;
-    }
 
-    let vaultParams = await encryptor.calculateInitVaultHubParams();
-    try {
-      let res0 = await etherClient.client?.initPrivateVault(
-        vaultParams.address,
-        vaultParams.signature.r,
-        vaultParams.signature.s,
-        vaultParams.signature.v,
-        vaultParams.deadline
-      );
-    } catch (e) {
-      setUSDCIsLoading(false);
-      return;
-    }
-    let _params = await encryptor.calculateVaultHasRegisterParams();
-    let _res = await etherClient.client?.vaultHasRegister(
-      _params.address,
-      _params.deadline,
-      _params.signature.r,
-      _params.signature.s,
-      _params.signature.v
+    let _res = await etherClient.client?.createSaveOrder(
+      receiver,
+      Number(amount),
+      "USDC"
     );
     if (_res === true) {
-        successToast("Init Vault Spacename Success");
+      successToast("Init Vault Spacename Success");
     } else {
-        warningToast("Init Vault Spacename Fail");
+      warningToast("Init Vault Spacename Fail");
     }
     setUSDCIsLoading(false);
-  }, [spaceName, password, chainId]);
+  }, [receiver, amount, chainId]);
 
   const activeButton = useMemo(() => {
     return (

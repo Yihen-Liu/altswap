@@ -8,11 +8,17 @@ const Home: React.FC<IBaseProps> = (props: IBaseProps) => {
     <Center>
       <Container>
         <Center>
-          <Text fontSize="2xl" >
+          <Text fontSize="2xl">
             welcome to use sBTC for your Bitcoin develop
           </Text>
         </Center>
         <BuyBoard />
+              <Center>
+          <Text fontSize="1xl">
+            pay attention that there are only 1071.6 sBTC left in the swap pool.
+          </Text>
+
+          </Center>
       </Container>
     </Center>
   );

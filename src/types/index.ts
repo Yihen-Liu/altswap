@@ -3,12 +3,9 @@
 /* tslint:disable */
 
 /* eslint-disable */
-import type * as orderBookSol from "./OrderBook.sol";
 import type * as interfaces from "./interfaces";
 import type * as libraries from "./libraries";
 import type * as src from "./src";
-
-export type { orderBookSol };
 
 export type { interfaces };
 
@@ -32,8 +29,8 @@ export type { VaultHubTypeHashs } from "./libraries/Constants.sol/VaultHubTypeHa
 export { VaultHubTypeHashs__factory } from "./factories/libraries/Constants.sol/VaultHubTypeHashs__factory";
 export type { VaultHubPermission } from "./libraries/Permission.sol/VaultHubPermission";
 export { VaultHubPermission__factory } from "./factories/libraries/Permission.sol/VaultHubPermission__factory";
-export type { OrderBook } from "./OrderBook.sol/OrderBook";
-export { OrderBook__factory } from "./factories/OrderBook.sol/OrderBook__factory";
+export type { OrderBook } from "./src/OrderBook.sol/OrderBook";
+export { OrderBook__factory } from "./factories/src/OrderBook.sol/OrderBook__factory";
 export type { MultiSigWallet } from "./src/treasury/MultiSignWallet.sol/MultiSigWallet";
 export { MultiSigWallet__factory } from "./factories/src/treasury/MultiSignWallet.sol/MultiSigWallet__factory";
 export type { MultiSigWalletWithDailyLimit } from "./src/treasury/MultiSignWallet.sol/MultiSigWalletWithDailyLimit";
