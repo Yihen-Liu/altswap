@@ -13,7 +13,7 @@ const Home: React.FC<IBaseProps> = (props: IBaseProps) => {
           </Text>
         </Center>
         <BuyBoard />
-              <Center>
+         <Center>
           <Text fontSize="1xl">
             pay attention that there are only 1071.6 sBTC left in the swap pool.
           </Text>

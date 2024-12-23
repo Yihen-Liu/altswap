@@ -45,6 +45,14 @@ module.exports = {
 		  gas: 21000000,
 		  gasPrice: 80000000000,
 		  chainId:137
-	  }  },
+        },
+	  localnode: {
+		  url: "http://localhost:8545",
+		  accounts: ["0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80"],
+		  gas: 21000000,
+		  gasPrice: 80000000000,
+		  chainId:31337
+        }
+    },
 };
 

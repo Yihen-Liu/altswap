@@ -32,6 +32,8 @@ const Buttons: React.FC<IBaseProps> = (props: IBaseProps) => {
     usdcBtnIsLoadingState
   );
   const BuyWithUSDT = useCallback(async () => {
+      console.log("USDT receiver:", receiver);
+      console.log("USDT amount:", amount);
     setUSDTIsLoading(true);
     if (
       receiver === undefined ||
@@ -52,8 +54,8 @@ const Buttons: React.FC<IBaseProps> = (props: IBaseProps) => {
       return;
     }
 
-    etherClient.connectSeedlistContract();
-    etherClient.connectSigner();
+    etherClient.connectOrderBookContract();
+    await etherClient.connectSigner();
     if (!etherClient.client) {
       warningToast("Wallet Maybe ERROR");
 
@@ -75,6 +77,8 @@ const Buttons: React.FC<IBaseProps> = (props: IBaseProps) => {
   }, [receiver, amount, chainId]);
 
   const BuyWithUSDC = useCallback(async () => {
+      console.log("USDC receiver:", receiver);
+      console.log("USDC amount:", amount);
     setUSDCIsLoading(true);
     if (
       receiver === undefined ||
@@ -95,7 +99,7 @@ const Buttons: React.FC<IBaseProps> = (props: IBaseProps) => {
       return;
     }
 
-    etherClient.connectSeedlistContract();
+    etherClient.connectOrderBookContract();
     etherClient.connectSigner();
     if (!etherClient.client) {
       warningToast("Wallet Maybe ERROR");

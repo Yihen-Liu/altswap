@@ -2,6 +2,8 @@ export const RINKEBY_ENCRYPT_CONTRACT_ADDR:string = "0x6d89587672fb830A6B9Fb66E6
 
 export const MAINNET_ENCRYPT_CONTRACT_ADDR:string = "0x6d89587672fb830A6B9Fb66E665528A38779e4c1"
 
+export type StableCoin = "USDC" | "USDT"
+
 type ChainName = "goerli" | "mainnet" |"local"
 
 type ChainList = {

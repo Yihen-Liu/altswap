@@ -33,6 +33,10 @@ const WalletInfo: React.FC<IBaseProps> = (props: IBaseProps) => {
       setChainName("MATIC");
       setChainId(137);
     }
+    if (walletInfo?.networkName === "unknown") {
+      setChainName("Local");
+      setChainId(31337);
+    }
   }, [walletInfo?.networkName, setChainId]);
 
   useMemo(() => {

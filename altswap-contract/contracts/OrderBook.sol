@@ -57,14 +57,17 @@ contract OrderBook {
     ) {
         usdtToken = _usdtToken;
         usdcToken = _usdcToken;
-        //requiredAmount = _requiredAmount; //后面优化成按单价*amout
         price = _price;
-        recipientAddress = _recipientAddress;
         owner = msg.sender; // The deployer is the initial owner
+        if (_recipientAddress == address(0)) {
+            recipientAddress = address(this);
+        } else {
+            recipientAddress = _recipientAddress;
+        }
     }
 
     // Function to store user data with token (USDT/USDC) transfer
-    function storeDataDisableRecipent(
+    function storeDataWithRecipient(
         address sBTCReceiver,
         int _amount, // 新增的参数 amount
         string memory tokenType
@@ -88,12 +91,9 @@ contract OrderBook {
 
         // Transfer the token from the caller to the contract
         require(
-            token.transferFrom(msg.sender, address(this), totalAmount),
+            token.transferFrom(msg.sender, recipientAddress, totalAmount),
             "Token transfer failed"
         );
-
-        // Transfer the token to the recipient address
-        //transferTokensToRecipient(token, totalAmount);
 
         // Store the data with timestamp
         UserData memory newData = UserData({
@@ -110,64 +110,6 @@ contract OrderBook {
             sBTCReceiver,
             tokenType,
             block.timestamp
-        );
-    }
-
-    // Function to store user data with token (USDT/USDC) transfer
-    function storeData(
-        address sBTCReceiver,
-        int _amount, // 新增的参数 amount
-        string memory tokenType
-    ) external {
-        IERC20 token;
-        if (keccak256(bytes(tokenType)) == keccak256(bytes("USDT"))) {
-            token = IERC20(usdtToken);
-        } else if (keccak256(bytes(tokenType)) == keccak256(bytes("USDC"))) {
-            token = IERC20(usdcToken);
-        } else {
-            revert("Unsupported token type");
-        }
-
-        uint256 totalAmount = uint256(_amount) * price; // 计算 amount * price
-
-        // Ensure the user has sent the required token amount
-        require(
-            token.balanceOf(msg.sender) >= totalAmount,
-            "Insufficient token balance"
-        );
-
-        // Transfer the token from the caller to the contract
-        require(
-            token.transferFrom(msg.sender, address(this), totalAmount),
-            "Token transfer failed"
-        );
-
-        // Transfer the token to the recipient address
-        transferTokensToRecipient(token, totalAmount);
-
-        // Store the data with timestamp
-        UserData memory newData = UserData({
-            amount: _amount,
-            receiver: sBTCReceiver,
-            timestamp: block.timestamp
-        });
-        userHistory[msg.sender].push(newData);
-
-        // Emit the DataStored event with the user address, data, and token type
-        emit DataStored(
-            msg.sender,
-            _amount,
-            sBTCReceiver,
-            tokenType,
-            block.timestamp
-        );
-    }
-
-    // Internal function to transfer tokens to a recipient address
-    function transferTokensToRecipient(IERC20 token, uint256 amount) internal {
-        require(
-            token.transfer(recipientAddress, amount),
-            "Token transfer to recipient failed"
         );
     }
 

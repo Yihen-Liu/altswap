@@ -13,37 +13,21 @@ import { ethers } from "ethers";
 declare module "hardhat/types/runtime" {
   interface HardhatEthersHelpers extends HardhatEthersHelpersBase {
     getContractFactory(
+      name: "ERC20",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ERC20__factory>;
+    getContractFactory(
+      name: "IERC20Metadata",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IERC20Metadata__factory>;
+    getContractFactory(
       name: "IERC20",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC20__factory>;
     getContractFactory(
-      name: "ISeed",
+      name: "ERC20Mock",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.ISeed__factory>;
-    getContractFactory(
-      name: "ITreasury",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.ITreasury__factory>;
-    getContractFactory(
-      name: "IVaultHub",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.IVaultHub__factory>;
-    getContractFactory(
-      name: "PrivateVaultTypeHashs",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.PrivateVaultTypeHashs__factory>;
-    getContractFactory(
-      name: "VaultHubCallee",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.VaultHubCallee__factory>;
-    getContractFactory(
-      name: "VaultHubTypeHashs",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.VaultHubTypeHashs__factory>;
-    getContractFactory(
-      name: "VaultHubPermission",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.VaultHubPermission__factory>;
+    ): Promise<Contracts.ERC20Mock__factory>;
     getContractFactory(
       name: "IERC20",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -52,79 +36,27 @@ declare module "hardhat/types/runtime" {
       name: "OrderBook",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.OrderBook__factory>;
-    getContractFactory(
-      name: "IERC20",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.IERC20__factory>;
-    getContractFactory(
-      name: "MultiSigWallet",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.MultiSigWallet__factory>;
-    getContractFactory(
-      name: "MultiSigWalletWithDailyLimit",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.MultiSigWalletWithDailyLimit__factory>;
-    getContractFactory(
-      name: "ERC20",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.ERC20__factory>;
-    getContractFactory(
-      name: "SeedToken",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.SeedToken__factory>;
-    getContractFactory(
-      name: "Treasury",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.Treasury__factory>;
-    getContractFactory(
-      name: "PrivateVault",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.PrivateVault__factory>;
-    getContractFactory(
-      name: "VaultHub",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.VaultHub__factory>;
 
+    getContractAt(
+      name: "ERC20",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ERC20>;
+    getContractAt(
+      name: "IERC20Metadata",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC20Metadata>;
     getContractAt(
       name: "IERC20",
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.IERC20>;
     getContractAt(
-      name: "ISeed",
+      name: "ERC20Mock",
       address: string,
       signer?: ethers.Signer
-    ): Promise<Contracts.ISeed>;
-    getContractAt(
-      name: "ITreasury",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.ITreasury>;
-    getContractAt(
-      name: "IVaultHub",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.IVaultHub>;
-    getContractAt(
-      name: "PrivateVaultTypeHashs",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.PrivateVaultTypeHashs>;
-    getContractAt(
-      name: "VaultHubCallee",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.VaultHubCallee>;
-    getContractAt(
-      name: "VaultHubTypeHashs",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.VaultHubTypeHashs>;
-    getContractAt(
-      name: "VaultHubPermission",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.VaultHubPermission>;
+    ): Promise<Contracts.ERC20Mock>;
     getContractAt(
       name: "IERC20",
       address: string,
@@ -135,46 +67,6 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.OrderBook>;
-    getContractAt(
-      name: "IERC20",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.IERC20>;
-    getContractAt(
-      name: "MultiSigWallet",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.MultiSigWallet>;
-    getContractAt(
-      name: "MultiSigWalletWithDailyLimit",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.MultiSigWalletWithDailyLimit>;
-    getContractAt(
-      name: "ERC20",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.ERC20>;
-    getContractAt(
-      name: "SeedToken",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.SeedToken>;
-    getContractAt(
-      name: "Treasury",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.Treasury>;
-    getContractAt(
-      name: "PrivateVault",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.PrivateVault>;
-    getContractAt(
-      name: "VaultHub",
-      address: string,
-      signer?: ethers.Signer
-    ): Promise<Contracts.VaultHub>;
 
     // default types
     getContractFactory(
